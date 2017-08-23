@@ -11,9 +11,6 @@ RUN apt-get install -y ssh openssh-server \
 
 RUN apt-get install -y nodejs npm \
  && ln -s /usr/bin/nodejs /usr/bin/node
- 
-RUN apt-get install -y nodejs npm \
- && ln -s /usr/bin/nodejs /usr/bin/node
 
 RUN apt-get install -y git
 
