@@ -1,7 +1,7 @@
 FROM ubuntu
 
 RUN apt-get update \
- && apt-get install -y apt-utils debconf-utils iputils-ping wget curl mc htop ssh openssh-server nano sudo\
+ && apt-get install -y wget curl ssh openssh-server nano\
  && apt-get clean \
  && mkdir /var/run/sshd 
 
@@ -15,8 +15,7 @@ RUN /usr/bin/ssh-keygen -A \
  && /etc/init.d/ssh restart
 
 RUN useradd -m -u 1000 -s /bin/bash pau \
- && echo 'pau:pau' | chpasswd \
- && adduser pau sudo
+ && echo 'pau:pau' | chpasswd
 
 VOLUME ["/volume"]
 
