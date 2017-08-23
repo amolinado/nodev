@@ -6,13 +6,13 @@ RUN apt-get update \
  && mkdir /var/run/sshd 
 
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config \
- && sed -ri 's/Port 22/Port 2022/g' /etc/ssh/sshd_config
+ && echo 'Port 2022' >> /etc/ssh/sshd_config
 
 RUN apt-get -y install nodejs npm \
  && ln -s /usr/bin/nodejs /usr/bin/node
 
-RUN /usr/bin/ssh-keygen -A \
- && /etc/init.d/ssh restart
+#RUN /usr/bin/ssh-keygen -A \
+# && /etc/init.d/ssh restart
 
 RUN useradd -m -u 1000 -s /bin/bash pau \
  && echo 'pau:pau' | chpasswd
