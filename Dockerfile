@@ -16,7 +16,7 @@ RUN apt-get clean
 
 RUN useradd -m -u 1000 -s /bin/bash pau \
  && echo 'pau:pau' | chpasswd \
- && chown 1000:root \
+ && chmod 777 \
    /etc/ssh/ssh_host_rsa_key \
    /etc/ssh/ssh_host_dsa_key \
    /etc/ssh/ssh_host_ecdsa_key \
