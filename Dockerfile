@@ -18,7 +18,7 @@ RUN useradd -m -u 1000 -s /bin/bash pau \
  && echo 'pau:pau' | chpasswd \
  && adduser pau sudo
 
-VOLUME ["/home/pau"]
+VOLUME ["/volume"]
 
 EXPOSE 2022 8080 8443
 
