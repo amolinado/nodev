@@ -2,7 +2,7 @@ FROM ubuntu
 
 RUN apt-get update
 
-RUN apt-get install -y wget curl nano
+RUN apt-get install -y wget curl nano telnet sudo
 
 RUN apt-get install -y ssh openssh-server \
  && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config \
@@ -16,6 +16,7 @@ RUN apt-get clean
 
 RUN useradd -m -u 1000 -s /bin/bash pau \
  && echo 'pau:pau' | chpasswd \
+ && adduser pau sudo \
  && chmod 777 \
    /etc/ssh/ssh_host_rsa_key \
    /etc/ssh/ssh_host_dsa_key \
