@@ -14,9 +14,13 @@ RUN apt-get install -y nodejs npm \
 
 RUN apt-get clean
 
-# USER #
 RUN useradd -m -u 1000 -s /bin/bash pau \
  && echo 'pau:pau' | chpasswd
+ && chown 1000:root \
+   /etc/ssh/ssh_host_rsa_key \
+   /etc/ssh/ssh_host_dsa_key \
+   /etc/ssh/ssh_host_ecdsa_key \
+   /etc/ssh/ssh_host_ed25519_key 
 
 VOLUME ["/volume"]
 
