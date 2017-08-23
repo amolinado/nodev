@@ -23,5 +23,3 @@ VOLUME ["/home/pau"]
 EXPOSE 2022 8080 8443
 
 USER 1000
-
-CMD ["/bin/bash"]
