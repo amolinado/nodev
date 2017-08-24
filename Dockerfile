@@ -35,7 +35,7 @@ RUN git clone https://github.com/pausk/wetty \
 WORKDIR /home/$APP_USER/wetty
 
 VOLUME ["/volume"]
-EXPOSE 2022 3000
+EXPOSE 3000 8000
 
 CMD sed -ri "s/:x:$APP_UID:/:x:`id -u`:/g" /etc/passwd \
  && mkdir -p /home/$APP_USER/.ssh \
@@ -43,6 +43,6 @@ CMD sed -ri "s/:x:$APP_UID:/:x:`id -u`:/g" /etc/passwd \
  && chmod 700 /home/$APP_USER/.ssh \
  && chmod 600 /home/$APP_USER/.ssh/authorized_keys \
  && ssh-keygen -A \
- && /usr/sbin/sshd -D & \
+ && /usr/sbin/sshd \
  && node app.js -p 3000 --sshport 2022
  
