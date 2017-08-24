@@ -24,7 +24,7 @@ RUN useradd -m -u $APP_UID -s /bin/bash $APP_USER \
  && echo "$APP_USER:$APP_PASS" | chpasswd \
  && adduser $APP_USER sudo
 
-RUN chgrp -R 0 /etc \
+RUN chgrp -R 0     /etc /home/$APP_USER \
  && chmod -R g+rwX /etc /home/$APP_USER
 
 USER $APP_USER
@@ -40,3 +40,9 @@ VOLUME ["/volume"]
 EXPOSE 3000
 
 CMD ["/usr/sbin/sshd","-D"]
+
+#ENTRYPOINT ["node"]
+#CMD ["app.js", "-p", "3000", "--sshport", "2022", "--sshuser", "app"]
+
+#node app.js -p 3000 --sshport 2022 --sshuser app
+#echo "ocuser:x:`id -u`:0::/home/app:/bin/bash" >> /etc/passwd
