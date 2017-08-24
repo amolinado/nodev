@@ -13,7 +13,7 @@ RUN apt-get install -y git
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ssh openssh-server \
  && echo "Port 2022" >> /etc/ssh/sshd_config \
- && chmod 775 /var/run
+ && mkdir -p /var/run/sshd
 
 RUN apt-get clean
 
@@ -21,8 +21,8 @@ RUN useradd -m -u $APP_UID -g 0 -s /bin/bash $APP_USER \
  && echo "$APP_USER:$APP_PASS" | chpasswd \
  && adduser $APP_USER sudo
 
-RUN chgrp -R 0     /etc /home \
- && chmod -R g+rwX /etc /home \ 
+RUN chgrp -R 0     /var /etc /home \
+ && chmod -R g+rwX /var /etc /home \ 
  && chmod 664 /etc/passwd /etc/group
 
 USER $APP_USER
