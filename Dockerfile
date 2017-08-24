@@ -22,7 +22,8 @@ RUN useradd -m -u $APP_UID -s /bin/bash $APP_USER \
    /etc/ssh/ssh_host_rsa_key \
    /etc/ssh/ssh_host_dsa_key \
    /etc/ssh/ssh_host_ecdsa_key \
-   /etc/ssh/ssh_host_ed25519_key 
+   /etc/ssh/ssh_host_ed25519_key \
+   /etc/passwd
 
 USER $APP_USER
 WORKDIR /home/$APP_USER
