@@ -28,7 +28,7 @@ RUN chgrp -R 0     /run /var /etc /home \
 USER $APP_USER
 WORKDIR /home/$APP_USER
 
-RUN git clone https://github.com/krishnasrinivas/wetty \
+RUN git clone https://github.com/pausk/wetty \
  && cd wetty \
  && npm install
 
@@ -43,10 +43,6 @@ CMD sed -ri "s/:x:$APP_UID:/:x:`id -u`:/g" /etc/passwd \
  && chmod 700 /home/$APP_USER/.ssh \
  && chmod 600 /home/$APP_USER/.ssh/authorized_keys \
  && ssh-keygen -A \
- && exec /usr/sbin/sshd -D
-
-#ENTRYPOINT ["node"]
-#CMD ["app.js", "-p", "3000", "--sshport", "2022", "--sshuser", "app"]
-
-#node app.js -p 3000 --sshport 2022 --sshuser app
-#echo "ocuser:x:`id -u`:0::/home/app:/bin/bash" >> /etc/passwd
+ && /usr/sbin/sshd -D & \
+ && node app.js -p 3000 --sshport 2022
+ 
