@@ -4,7 +4,7 @@ ENV APP_USER=app
 ENV APP_PASS=app
 
 RUN apt-get update \
- && apt-get -y install nss_wrapper gettext
+ && apt-get -y install libnss-wrapper gettext
 
 RUN apt-get install -y wget curl nano telnet sudo
 
