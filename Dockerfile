@@ -21,8 +21,8 @@ RUN useradd -m -u $APP_UID -g 0 -s /bin/bash $APP_USER \
  && echo "$APP_USER:$APP_PASS" | chpasswd \
  && adduser $APP_USER sudo
 
-RUN chgrp -R 0     /var /etc /home \
- && chmod -R g+rwX /var /etc /home \ 
+RUN chgrp -R 0     /run /var /etc /home \
+ && chmod -R g+rwX /run /var /etc /home \ 
  && chmod 664 /etc/passwd /etc/group
 
 USER $APP_USER
