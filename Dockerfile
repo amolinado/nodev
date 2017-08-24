@@ -4,9 +4,7 @@ ENV APP_USER=app
 ENV APP_PASS=app
 
 RUN apt-get update \
- && apt-get -y install libnss-wrapper gettext
-
-RUN apt-get install -y wget curl nano telnet sudo
+ && apt-get install -y ed wget curl nano telnet sudo
 
 RUN apt-get install -y nodejs npm \
  && ln -s /usr/bin/nodejs /usr/bin/node
@@ -14,18 +12,18 @@ RUN apt-get install -y nodejs npm \
 RUN apt-get install -y git
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ssh openssh-server \
- && mkdir /var/run/sshd \
  && echo "Port 2022" >> /etc/ssh/sshd_config \
- && /usr/bin/ssh-keygen -A
+ && chmod 775 /var/run
 
 RUN apt-get clean
 
-RUN useradd -m -u $APP_UID -s /bin/bash $APP_USER \
+RUN useradd -m -u $APP_UID -g 0 -s /bin/bash $APP_USER \
  && echo "$APP_USER:$APP_PASS" | chpasswd \
  && adduser $APP_USER sudo
 
-RUN chgrp -R 0     /etc /home/$APP_USER \
- && chmod -R g+rwX /etc /home/$APP_USER
+RUN chgrp -R 0     /etc /home \
+ && chmod -R g+rwX /etc /home \ 
+ && chmod 664 /etc/passwd /etc/group
 
 USER $APP_USER
 WORKDIR /home/$APP_USER
@@ -37,9 +35,15 @@ RUN git clone https://github.com/krishnasrinivas/wetty \
 WORKDIR /home/$APP_USER/wetty
 
 VOLUME ["/volume"]
-EXPOSE 3000
+EXPOSE 2022 3000
 
-CMD ["/usr/sbin/sshd","-D"]
+CMD echo -e ",s/$APP_UID/`id -u`/g\\012 w" | ed -s /etc/passwd \
+ && mkdir -p /home/$APP_USER/.ssh \
+ && touch /home/$APP_USER/.ssh/authorized_keys \
+ && chmod 700 /home/$APP_USER/.ssh \
+ && chmod 600 /home/$APP_USER/.ssh/authorized_keys \
+ && ssh-keygen -A \
+ && exec /usr/sbin/sshd -D
 
 #ENTRYPOINT ["node"]
 #CMD ["app.js", "-p", "3000", "--sshport", "2022", "--sshuser", "app"]
