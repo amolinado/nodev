@@ -43,7 +43,7 @@ CMD echo -e ",s/$APP_UID/`id -u`/g\\012 w" | ed -s /etc/passwd \
  && chmod 700 /home/$APP_USER/.ssh \
  && chmod 600 /home/$APP_USER/.ssh/authorized_keys \
  && ssh-keygen -A \
- && exec /usr/sbin/sshd -D
+ && /usr/sbin/sshd -D
 
 #ENTRYPOINT ["node"]
 #CMD ["app.js", "-p", "3000", "--sshport", "2022", "--sshuser", "app"]
