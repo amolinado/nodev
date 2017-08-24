@@ -1,10 +1,10 @@
 FROM ubuntu
-ENV APP_UID=1000
+ENV APP_UID=999666
 ENV APP_USER=app
 ENV APP_PASS=app
 
 RUN apt-get update \
- && apt-get install -y ed wget curl nano telnet sudo
+ && apt-get install -y wget curl nano telnet sudo
 
 RUN apt-get install -y nodejs npm \
  && ln -s /usr/bin/nodejs /usr/bin/node
@@ -37,13 +37,13 @@ WORKDIR /home/$APP_USER/wetty
 VOLUME ["/volume"]
 EXPOSE 2022 3000
 
-CMD echo -e ",s/$APP_UID/`id -u`/g\\012 w" | ed -s /etc/passwd \
+CMD sed -ri "s/:x:$APP_UID:/:x:`id -u`:/g" /etc/passwd \
  && mkdir -p /home/$APP_USER/.ssh \
  && touch /home/$APP_USER/.ssh/authorized_keys \
  && chmod 700 /home/$APP_USER/.ssh \
  && chmod 600 /home/$APP_USER/.ssh/authorized_keys \
  && ssh-keygen -A \
- && /usr/sbin/sshd -D
+ && exec /usr/sbin/sshd -D
 
 #ENTRYPOINT ["node"]
 #CMD ["app.js", "-p", "3000", "--sshport", "2022", "--sshuser", "app"]
