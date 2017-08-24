@@ -10,7 +10,8 @@ RUN apt-get install -y wget curl nano telnet sudo
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ssh openssh-server \
  && mkdir /var/run/sshd \
- && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config 
+ && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config \
+ && echo "Port 2022" >> /etc/ssh/sshd_config
 
 RUN apt-get install -y nodejs npm \
  && ln -s /usr/bin/nodejs /usr/bin/node
