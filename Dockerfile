@@ -6,6 +6,8 @@ ENV APP_PASS=app
 RUN apt-get update \
  && apt-get install -y wget curl nano telnet sudo
 
+RUN apt-get install -y cmake build-essential libboost-all-dev 
+
 RUN apt-get install -y nodejs npm \
  && ln -s /usr/bin/nodejs /usr/bin/node
 
